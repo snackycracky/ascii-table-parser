@@ -1,7 +1,7 @@
 # ascii-table-parser
 
-This code parses an table made of ASCII Chars with a random column width.
-Unfortunately the table is non-deterministic in column separation and cell types:
+This code parses an table made of ASCII Chars and calculates the minimum deviation of the 2nd and 3rd column.
+Unfortunately the table is non-deterministic in column separation, column width and cell data-types:
 
 ```
   Dy MxT   MnT   AvT   HDDay  AvDP 1HrP TPcpn WxType PDir AvSp Dir MxS SkyC MxR MnR AvSLP
@@ -41,7 +41,30 @@ Unfortunately the table is non-deterministic in column separation and cell types
 ```
 
 The parser makes every cell a key-value pair of `[:column_name cell_value]` for every data row.
-The parser has a metadata-hash which describes the column width. 
+The parser has a metadata-hash which describes the column width:
+ 
+```clj
+ (def raw_header_metadata
+   {:Dy     {:width 4 :order 0 :numeric true}
+    :MxT    {:width 6 :order 1 :numeric true}
+    :MnT    {:width 6 :order 2 :numeric true}
+    :AvT    {:width 6 :order 3}
+    :HDDay  {:width 6 :order 4}
+    :AvDP   {:width 6 :order 5}
+    :1HrP   {:width 5 :order 6}
+    :TPcpn  {:width 6 :order 7}
+    :WxType {:width 6 :order 8}
+    :PDir   {:width 6 :order 9}
+    :AvSp   {:width 5 :order 10}
+    :Dir    {:width 4 :order 11}
+    :MxS    {:width 4 :order 12}
+    :SkyC   {:width 5 :order 13}
+    :MxR    {:width 4 :order 14}
+    :MnR    {:width 4 :order 15}
+    :AvSLP  {:width 6 :order 16}})
+
+```
+ 
 Every data-row is parsed by column-widths relative to the column index. 
 E.g. the Cell 3 in the first row is parsed from the row String in a calculated range as follows:
 The first, second and third column widths are defined as "4 Spaces" in the metadata then the range will be 8-12.
