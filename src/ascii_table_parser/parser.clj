@@ -33,7 +33,6 @@
 (defn column_start [col_key table_metadata]
   (reduce + (map #(get % :width) (first_n_column_metadata col_key table_metadata))))
 
-
 (def cols (keys header_metadata))
 
 (defn col_width [metadata key]
