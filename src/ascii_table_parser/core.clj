@@ -6,4 +6,4 @@
 (def ascii-table-file (slurp "resources/weather-ascii-table.txt"))
 
 (defn -main [& args]
-  (print (parser/table_as_hash ascii-table-file)))
+  (print (map #(get % :MxT) (parser/table_as_hash ascii-table-file))))
