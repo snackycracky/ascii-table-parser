@@ -1,7 +1,7 @@
 # ascii-table-parser
 
-This code parses an table made of ASCII Chars with a Random column width. 
-The table is non-deterministic in column separation and cell types:
+This code parses an table made of ASCII Chars with a random column width.
+Unfortunately the table is non-deterministic in column separation and cell types:
 
 ```
   Dy MxT   MnT   AvT   HDDay  AvDP 1HrP TPcpn WxType PDir AvSp Dir MxS SkyC MxR MnR AvSLP
