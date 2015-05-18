@@ -6,7 +6,7 @@
     (if (< a b) (- b a) (- a b))))
 
 (defn colums-as-array [row-hash]
-  (vector (get row-hash :Dy) (get row-hash :MxT) (get row-hash :MnT)))
+  (vector (:Dy row-hash) (:MxT row-hash) (:MnT row-hash)))
 
 (defn min-deviation-day-number [set]
   ;; finds the min deviation of the map below

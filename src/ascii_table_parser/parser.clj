@@ -21,8 +21,8 @@
 
 ;; order header metadata by order number (found http://clojuredocs.org/clojure.core/sorted-map-by)
 (def header_metadata (into (sorted-map-by (fn [key2 key1]
-                                            (compare (get (get raw_header_metadata key2) :order)
-                                                     (get (get raw_header_metadata key1) :order))))
+                                            (compare (:order (key2 raw_header_metadata))
+                                                     (:order (key1 raw_header_metadata)))))
                            raw_header_metadata))
 
 
@@ -31,22 +31,22 @@
 
 
 (defn column_start [col_key table_metadata]
-  (reduce + (map #(get % :width) (first_n_column_metadata col_key table_metadata))))
+  (reduce + (map #(:width %) (first_n_column_metadata col_key table_metadata))))
 
 (def cols (keys header_metadata))
 
 (defn col_width [metadata key]
-  (get (get metadata key) :width))
+  (:width (key metadata)))
 
 (defn start_end_index [metadata col_key]
   [(column_start col_key metadata) (+ (column_start col_key metadata) (col_width metadata col_key))])
 
 (defn data_from_row_string [row metadata col_key]
   (subs row (first (start_end_index metadata col_key))
-           (second (start_end_index metadata col_key))))
+        (second (start_end_index metadata col_key))))
 
 (defn col_numeric? [metadata col_key]
-  (get (get metadata col_key) :numeric))
+  (:numeric (col_key metadata)))
 
 (defn split_row_by_column_size [row]
   (for [col_key cols]
